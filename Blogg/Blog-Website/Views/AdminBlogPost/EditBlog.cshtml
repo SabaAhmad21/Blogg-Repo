@@ -1,0 +1,124 @@
+﻿
+@model Blog_Website.Models.ViewModels.EditBlogPostVM
+
+@{
+}
+<div class="col-lg-12 grid-margin stretch-card ">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Add Admin Blog Posts</h4>
+
+          
+                @if (Model != null)
+                {
+                <form class="forms-sample" method="post">
+                    <div class="form-group">
+                        <label for="Id">Id</label>
+                        <input type="text" class="form-control" id="id"  asp-for="Id" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Heading">Heading</label>
+                        <input type="text" class="form-control" id="tagHeading" placeholder="Heading" asp-for="Heading">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="PageTitle">Page Title</label>
+                        <input type="text" class="form-control" id="pageTitle" placeholder="Page Title" asp-for="PageTitle">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Content">Page Content</label>
+                        <textarea class="form-control" id="pageContent" asp-for="PageContent"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ShortDescription">Short Description</label>
+                        <input type="text" class="form-control" id="shortDescription" placeholder="ShortDescription" asp-for="ShortDescription">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="FeaturedImageUrl">Featured Image Url</label>
+                        <input type="text" class="form-control" id="featuredImageUrl" placeholder="FeaturedImageUrl" asp-for="FeaturedImageUrl">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="UrlHandle">Url Handle</label>
+                        <input type="text" class="form-control" id="urlHandle" placeholder="UrlHandle" asp-for="UrlHandle">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="PublishedDate">Published Date</label>
+                        <input type="date" class="form-control" id="publishedDate" placeholder="PublishedDate " asp-for="PublishedDate">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Author">Author</label>
+                        <input type="text" class="form-control" id="author" placeholder="Author" asp-for="Author">
+                    </div>
+
+                    <div class="form-group form-check-flat form-check-primary ">
+                        <input type="checkbox" value="" id="Visible" asp-for="Visible">
+                        <label class="form-check-label">
+                            Is Visible
+                        </label>
+                    </div>
+               
+                    <div class="form-group">
+                        <label class="form-label">Select Tag</label>
+                        <select class="form-control form-control-lg" 
+                                asp-items="@Model.Tags"
+                                asp-for="SelectedTags">
+                        </select>  
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-dark mr-2">Update</button>
+                        <button type="submit" class="btn btn-danger" asp-action="DeleteBlog" asp-controller="AdminBlogPost">Delete</button>
+                    </div>
+                     </form>
+                }
+                else
+                {
+                    <p>No blog post found</p>
+                }
+
+            </div>
+        @section Scripts
+        {
+            <script>
+                // Text editor
+                var editor = new FroalaEditor('#pageContent', {
+
+                    imageUploadURL: "/api/images"
+                });
+            </script>
+            <script>
+                const featuredUploadElement = document.getElementById('featuredImageUpload');
+                const featuredImageUrlElement = document.getElementById('featuredImageUrl');
+                const featuredImageDisplayElement = document.getElementById('featuredImageDisplay');
+
+                async function uploadFeaturedImage(e) {
+                    console.log(e.target.files[0]);
+
+                    let data = new FormData();
+                    data.append('file', e.target.files[0]);
+
+                    await fetch('/api/images', {
+
+                        method: 'POST',
+                        headers: {
+                            'Accept': '*/*',
+                        },
+                        body: data
+                    }).then(response => response.json()).then(result => {
+                        featuredImageUrlElement.value = result.link;
+                        featuredImageDisplayElement.src = result.link;
+                        featuredImageDisplayElement.style.display = 'block';
+                    });
+
+
+                }
+                featuredUploadElement.addEventListener('change', uploadFeaturedImage);
+            </script>
+
+        }

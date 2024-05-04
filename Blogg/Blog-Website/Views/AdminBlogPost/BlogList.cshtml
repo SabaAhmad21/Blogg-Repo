@@ -1,0 +1,56 @@
+﻿@model List<Blog_Website.Models.Domain.BlogPost>
+
+@{
+ }
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="table-responsive pt-5">
+                @if (Model != null && Model.Any())
+                {
+                    <table class="table table-striped project-orders-table">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Heading</th>
+                                <th>Tags</th>
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                @foreach (var blogPost in Model)
+                                {
+                                <tr>
+                                    <td>@blogPost.Id</td>
+                                    <td>@blogPost.Heading</td>
+                                    <td>
+                                        <div class="d-flex">
+                                            @foreach(var tag in blogPost.Tags)
+                                            {
+                                                <span class="badge bg-info">@tag.Name</span>
+                                            }
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a  asp-area=""
+                                            asp-controller="AdminBlogPost"
+                                            asp-action="EditBlog"
+                                            asp-route-id="@blogPost.Id">
+                                            Edit
+                                        </a>
+                                    </td>                                 
+                                </tr>
+                                }
+
+                    </table>
+                    }
+                    else
+                    {
+                    <p>  No tags found</p>
+                    }
+            </div>
+        </div>
+    </div>
+</div>

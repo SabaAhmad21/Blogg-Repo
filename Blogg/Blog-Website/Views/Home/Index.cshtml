@@ -1,0 +1,90 @@
+﻿@model Blog_Website.Models.ViewModels.HomeViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<div class="container col-xxl-8 px-4 py-5">
+
+    <div class="row align-items-center g-5 py-5 ">
+        <div class="col-12 col-lg-6">
+            <h1 class="fw-bold mb-3">
+    Blogs - The Dev Blogs
+</h1>
+              <p class="lead" >
+
+                Welcome to Tech-Wander, your comprehensive guide to the ever-evolving world of web development! 
+                Whether you're a novice eager to take your first steps into the realm of coding or a seasoned professional 
+                seeking to expand your skill set, you've arrived at the perfect destination. Our platform is dedicated to 
+                providing you with in-depth insights, tutorials, and resources covering a myriad of technologies, 
+                including HTML, CSS, JavaScript, ASP.NET, Angular, C#, and the .NET Framework, among others. From building 
+                stunning websites with HTML and CSS to crafting dynamic user experiences with JavaScript and Angular.
+
+              </p>
+        </div>
+        <div class="col-12 col-lg-6">
+            <img class="img-fluid d-block mx-lg-auto img-fluid" 
+            src="https://cdn.pixabay.com/photo/2016/10/13/16/26/web-agency-1738168_640.jpg" 
+            alt="Blogg - Dev Blogs" >
+        </div>
+    </div>
+<div class="container">
+    <div class="row justify-content-center ">
+<div class="col-6">
+                @if (Model != null && Model.Tags.Any())
+                {
+                    foreach (var tag in Model.Tags)
+                    {
+                        <span class="badge bg-info">@tag.Name</span>
+                    }
+                }
+
+</div>
+    </div>
+
+</div>
+
+
+    <div class="container">         
+        <div class="row justify-content-center">
+            <div class="col-6">
+                @if (Model != null && Model.BlogPosts.Any())
+                {
+                    foreach (var blogPost in Model.BlogPosts)
+                    {
+                        <div class="mb-5 bg-light box-shadow p-5">
+                            <img src="@blogPost.FeaturedImageUrl" alt="@blogPost.Heading"
+                            class="mb-2 d-block img-fluid"/>
+
+                            <h3 class="mb-4">@blogPost.Heading</h3>
+                            <p class="mb-4">
+                                Author: @blogPost.Author
+                                <br />
+                                Published Date: @blogPost.PublishedDate.ToShortDateString()                        
+                                </p>
+                                <p class="mb-4">
+                                @foreach (var tag in blogPost.Tags)
+                                {
+                                    <span class="badge bg-info">@tag.Name</span>
+                                }
+
+                                    </p>
+                            <p class="mb-4">
+                                @blogPost.ShortDescription
+                                </p>
+                                <a class="btn btn-dark" 
+                                asp-area=""
+                                asp-controller="Blogs"
+                                asp-action="Index"
+                               asp-route-UrlHandle="@blogPost.UrlHandle">Read More</a>
+
+                        </div>
+              
+                    }
+                } 
+
+
+            </div>
+        </div>
+</div>
